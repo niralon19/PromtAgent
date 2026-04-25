@@ -1,0 +1,70 @@
+actions:
+  - action_key: NOTE_IN_TICKET
+    description: Add a diagnostic note to the Jira ticket without taking any action
+    target_fields: [note_text]
+    tier: 0
+    requires_approval: false
+    estimated_risk: low
+
+  - action_key: ADD_CORRELATION_COMMENT
+    description: Link related incidents in the ticket and add a correlation note
+    target_fields: [related_incident_ids]
+    tier: 0
+    requires_approval: false
+    estimated_risk: low
+
+  - action_key: ACKNOWLEDGE_MAINTENANCE
+    description: Mark the incident as expected during a known maintenance window
+    target_fields: [maintenance_window_id]
+    tier: 0
+    requires_approval: false
+    estimated_risk: low
+
+  - action_key: ESCALATE_TO_TIER2
+    description: Escalate to Tier 2 NOC or on-call engineer with full context
+    target_fields: [escalation_reason, target_team]
+    tier: 0
+    requires_approval: false
+    estimated_risk: low
+
+  - action_key: MARK_FALSE_POSITIVE
+    description: Mark the incident as a false positive (no real issue)
+    target_fields: [reason]
+    tier: 1
+    requires_approval: true
+    estimated_risk: low
+
+  - action_key: RESTART_SERVICE
+    description: Restart a specific monitored service on the affected host
+    target_fields: [hostname, service_name]
+    tier: 1
+    requires_approval: true
+    estimated_risk: medium
+
+  - action_key: CLEAR_CACHE
+    description: Clear application or system cache on the affected host
+    target_fields: [hostname, cache_type]
+    tier: 1
+    requires_approval: true
+    estimated_risk: low
+
+  - action_key: DRAIN_NODE_TRAFFIC
+    description: Drain traffic from a node before maintenance or replacement
+    target_fields: [hostname, target_pool]
+    tier: 2
+    requires_approval: true
+    estimated_risk: medium
+
+  - action_key: MODIFY_CONFIG
+    description: Apply a pre-approved configuration change (from allowed set only)
+    target_fields: [hostname, config_key, config_value]
+    tier: 2
+    requires_approval: true
+    estimated_risk: high
+
+  - action_key: REBOOT_HOST
+    description: Reboot the affected host (manual only, never automated)
+    target_fields: [hostname, reason]
+    tier: 3
+    requires_approval: true
+    estimated_risk: high

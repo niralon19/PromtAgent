@@ -1,0 +1,75 @@
+# Classification rules for alert categorization.
+# Rules are evaluated top-to-bottom within each category; first match wins.
+# Categories: physical | data_integrity | coupling
+
+physical:
+  - alertname_patterns:
+      - ".*[Cc][Pp][Uu].*"
+      - ".*[Mm]em.*"
+      - ".*[Mm]emory.*"
+      - ".*[Dd]isk.*"
+      - ".*[Ii][Oo].*"
+      - ".*[Ll]oad.*"
+      - ".*[Tt]emp.*"
+      - ".*[Ss]wap.*"
+      - ".*[Pp]rocess.*"
+      - ".*[Hh]ardware.*"
+      - ".*[Ff]an.*"
+      - ".*[Pp]ower.*"
+    metric_hints:
+      - "cpu"
+      - "memory"
+      - "disk"
+      - "io"
+      - "load"
+      - "temperature"
+      - "swap"
+
+data_integrity:
+  # Explicit label override (highest priority)
+  - label_hints:
+      category: "data_integrity"
+  # Pattern-based classification (no label requirement)
+  - alertname_patterns:
+      - ".*[Ff]resh.*"
+      - ".*[Ss]tale.*"
+      - ".*[Gg]ap.*"
+      - ".*[Mm]issing.*"
+      - ".*[Pp]ipeline.*"
+      - ".*[Ee][Tt][Ll].*"
+      - ".*[Ll]ag.*"
+      - ".*[Dd]ata.*[Ee]rr.*"
+      - ".*[Ss]chema.*"
+      - ".*[Dd]uplicate.*"
+      - ".*[Ii]ngest.*"
+      - ".*[Rr]ecord.*"
+    metric_hints:
+      - "freshness"
+      - "lag"
+      - "gap"
+      - "pipeline"
+
+coupling:
+  # Explicit label override (highest priority)
+  - label_hints:
+      category: "coupling"
+  # Pattern-based classification (no label requirement)
+  - alertname_patterns:
+      - ".*[Bb][Gg][Pp].*"
+      - ".*[Pp]eer.*"
+      - ".*[Ll]ink.*"
+      - ".*[Ss]ession.*"
+      - ".*[Cc]oupl.*"
+      - ".*[Cc]onnect.*"
+      - ".*[Ll]atency.*"
+      - ".*[Rr]eachab.*"
+      - ".*[Tt]unnel.*"
+      - ".*[Oo]spf.*"
+      - ".*[Ii][Ss][Ii][Ss].*"
+      - ".*[Vv][Pp][Nn].*"
+    metric_hints:
+      - "bgp"
+      - "peer"
+      - "link"
+      - "session"
+      - "latency"
